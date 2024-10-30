@@ -1,0 +1,56 @@
+const withMT = require("@material-tailwind/react/utils/withMT");
+
+module.exports = withMT({
+  content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
+  theme: {
+    extend: {
+      colors: {
+        sapphire: {
+          50: "#f2f5fc",
+          100: "#e1eaf8",
+          200: "#c9d9f4",
+          300: "#a5c1eb",
+          400: "#79a1e1",
+          500: "#5a81d7",
+          600: "#4666ca",
+          700: "#3c55b9",
+          800: "#3b4da5",
+          900: "#303e78",
+          950: "#21274a",
+        },
+      },
+      fontFamily: {
+        "poppins-thin": ["Poppins", "sans-serif"],
+        "poppins-extralight": ["Poppins", "sans-serif"],
+        "poppins-light": ["Poppins", "sans-serif"],
+        "poppins-regular": ["Poppins", "sans-serif"],
+        "poppins-medium": ["Poppins", "sans-serif"],
+        "poppins-semibold": ["Poppins", "sans-serif"],
+        "poppins-bold": ["Poppins", "sans-serif"],
+        "poppins-extrabold": ["Poppins", "sans-serif"],
+        "poppins-black": ["Poppins", "sans-serif"],
+        "poppins-thin-italic": ["Poppins", "sans-serif"],
+        "poppins-extralight-italic": ["Poppins", "sans-serif"],
+        "poppins-light-italic": ["Poppins", "sans-serif"],
+        "poppins-regular-italic": ["Poppins", "sans-serif"],
+        "poppins-medium-italic": ["Poppins", "sans-serif"],
+        "poppins-semibold-italic": ["Poppins", "sans-serif"],
+        "poppins-bold-italic": ["Poppins", "sans-serif"],
+        "poppins-extrabold-italic": ["Poppins", "sans-serif"],
+        "poppins-black-italic": ["Poppins", "sans-serif"],
+      },
+      fontWeight: {
+        thin: "100",
+        extralight: "200",
+        light: "300",
+        regular: "400",
+        medium: "500",
+        semibold: "600",
+        bold: "700",
+        extrabold: "800",
+        black: "900",
+      },
+    },
+  },
+  plugins: [],
+});
