@@ -144,15 +144,7 @@ export function LoginForm() {
         <Typography
           color="gray"
           className="mt-4 text-center font-normal font-poppins-regular"
-        >
-          {isReceptionist ? "Eres médico?" : "Eres recepcionista?"}{" "}
-          <span
-            onClick={handleToggleRole}
-            className="font-medium text-sapphire-600 cursor-pointer font-poppins-regular"
-          >
-            Inicia sesión aquí
-          </span>
-        </Typography>
+        ></Typography>
       </form>
     </Card>
   );

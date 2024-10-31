@@ -28,27 +28,40 @@ function Treatmeant() {
   useEffect(() => {
     if (editingTreatment) {
       reset({
-        fecha: editingTreatment.fecha
-          ? editingTreatment.fecha.split("T")[0]
+        fecha: editingTreatment.Fecha
+          ? editingTreatment.Fecha.split("T")[0] // Formatear fecha
           : "",
         pacientes_telefono: editingTreatment.pacientes_telefono,
-        procedimiento: editingTreatment.procedimiento,
-        observaciones: editingTreatment.observaciones,
-        medicamentoRecetado: editingTreatment.medicamentoRecetado,
-        citasFaltante: editingTreatment.citasFaltante,
+        procedimiento: editingTreatment.Procedimineto,
+        observaciones: editingTreatment.Observaciones,
+        medicamentoRecetado: editingTreatment.MedicamentoRecetado,
+        citasFaltante: editingTreatment.CitasFaltenate,
       });
     }
   }, [editingTreatment, reset]);
 
   const headers = [
     "Fecha",
-    "Teléfono Paciente",
-    "Procedimiento",
+    "pacientes_telefono",
+    "Procedimineto",
     "Observaciones",
-    "Medicamento Recetado",
-    "Citas Faltantes",
-    "ID_Tratamiento",
+    "MedicamentoRecetado",
+    "CitasFaltenate",
   ];
+  const displayHeaders = [
+    "Fecha",
+    "Telefono del Paciente",
+    "Procedimineto",
+    "Observaciones",
+    "MedicamentoRecetado",
+    "CitasFaltenate",
+  ];
+
+  // Formatear las fechas de los tratamientos
+  const formattedTreatments = treatments.map((treatment) => ({
+    ...treatment,
+    Fecha: treatment.Fecha ? treatment.Fecha.split("T")[0] : "", // Formatear fecha
+  }));
 
   const handleEditClick = (row) => {
     setEditingTreatment(row);
@@ -73,8 +86,10 @@ function Treatmeant() {
   const onCreateSubmit = async (data) => {
     const newTreatment = {
       ...data,
+      citasFaltante: parseInt(data.citasFaltante, 10),
+      pacientes_telefono: parseInt(data.pacientes_telefono, 10),
     };
-
+    console.log(newTreatment);
     const treatmentCreate = await createTreatment(newTreatment);
 
     if (treatmentCreate && treatmentCreate.status === 200) {
@@ -85,6 +100,17 @@ function Treatmeant() {
       console.error("Error al crear el tratamiento:", treatmentCreate);
     }
   };
+
+  const procedimientos = [
+    { procedimiento: "Chequeo", cod_procedimiento: 2 },
+    { procedimiento: "Limpieza", cod_procedimiento: 3 },
+    { procedimiento: "Extracción", cod_procedimiento: 6 },
+    { procedimiento: "Caries", cod_procedimiento: 7 },
+    { procedimiento: "Ortodoncia", cod_procedimiento: 11 },
+    { procedimiento: "Mantenimiento Ortodoncia", cod_procedimiento: 20 },
+    { procedimiento: "Blanqueamiento", cod_procedimiento: 21 },
+    { procedimiento: "Carie Prueba 2", cod_procedimiento: 2020 },
+  ];
 
   return (
     <div>
@@ -136,13 +162,26 @@ function Treatmeant() {
                   })}
                   className="mb-4"
                 />
-                <Input
-                  label="Procedimiento"
+                <label htmlFor="procedimiento" className="block mb-2">
+                  Procedimiento
+                </label>
+                <select
+                  id="procedimiento"
                   {...register("procedimiento", {
                     required: "El procedimiento es necesario",
                   })}
-                  className="mb-4"
-                />
+                  className="block w-full p-2 border rounded mb-4"
+                >
+                  <option value="">Selecciona un procedimiento</option>
+                  {procedimientos.map((proc) => (
+                    <option
+                      key={proc.cod_procedimiento}
+                      value={proc.procedimiento}
+                    >
+                      {proc.procedimiento}
+                    </option>
+                  ))}
+                </select>
                 <Input
                   label="Observaciones"
                   {...register("observaciones", {
@@ -237,9 +276,10 @@ function Treatmeant() {
             ) : (
               <Table
                 headers={headers}
-                displayHeaders={headers}
-                TABLE_ROWS={treatments}
+                displayHeaders={displayHeaders}
+                TABLE_ROWS={formattedTreatments} // Usar tratamientos con fecha formateada
                 onEdit={handleEditClick}
+                showEditColumn={false}
               />
             )}
           </>

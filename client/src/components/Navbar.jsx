@@ -54,7 +54,10 @@ export function StickyNavbar() {
               color="blue-gray"
               className="p-1 font-normal"
             >
-              <Link className="flex items-center font-poppins-regular" to={"/doctor"}>
+              <Link
+                className="flex items-center font-poppins-regular"
+                to={"/doctor"}
+              >
                 Pacientes
               </Link>
             </Typography>
@@ -64,7 +67,10 @@ export function StickyNavbar() {
               color="blue-gray"
               className="p-1 font-normal"
             >
-              <Link className="flex items-center font-poppins-regular" to={"/procedimiento-cita"}>
+              <Link
+                className="flex items-center font-poppins-regular"
+                to={"/procedimiento-cita"}
+              >
                 Procedimientos
               </Link>
             </Typography>
@@ -74,7 +80,10 @@ export function StickyNavbar() {
               color="blue-gray"
               className="p-1 font-normal"
             >
-              <Link className="flex items-center font-poppins-regular" to={"/tratamientos"}>
+              <Link
+                className="flex items-center font-poppins-regular"
+                to={"/tratamientos"}
+              >
                 Reportes
               </Link>
             </Typography>
@@ -84,7 +93,10 @@ export function StickyNavbar() {
               color="blue-gray"
               className="p-1 font-normal"
             >
-              <Link className="flex items-center font-poppins-regular" to={"/suministros"}>
+              <Link
+                className="flex items-center font-poppins-regular"
+                to={"/suministros"}
+              >
                 Suministros
               </Link>
             </Typography>

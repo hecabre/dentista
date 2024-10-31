@@ -1,6 +1,23 @@
 import { useForm } from "react-hook-form";
-import { Button, Input, Typography } from "@material-tailwind/react";
+import {
+  Button,
+  Input,
+  Typography,
+  Select,
+  Option,
+} from "@material-tailwind/react"; // Importa Select y Option
 import { useState } from "react";
+
+const procedimientos = [
+  { nombreProcedimiento: "Chequeo", procedimiento: 2 },
+  { nombreProcedimiento: "Limpieza", procedimiento: 3 },
+  { nombreProcedimiento: "Extracción", procedimiento: 6 },
+  { nombreProcedimiento: "Caries", procedimiento: 7 },
+  { nombreProcedimiento: "Ortodoncia", procedimiento: 11 },
+  { nombreProcedimiento: "Mantenimiento Ortodoncia", procedimiento: 20 },
+  { nombreProcedimiento: "Blanqueamiento", procedimiento: 21 },
+  { nombreProcedimiento: "Carie Prueba 2", procedimiento: 2020 },
+];
 
 function CreateTreatmentForm({ onCreate }) {
   const {
@@ -15,9 +32,8 @@ function CreateTreatmentForm({ onCreate }) {
     setIsSubmitting(true);
     const success = await onCreate(data); // onCreate es la función de creación de tratamiento
 
-    if (success) {
-      reset(); // Limpiar el formulario tras una creación exitosa
-    }
+    if (success) reset(); // Limpiar el formulario tras una creación exitosa
+
     setIsSubmitting(false);
   };
 
@@ -51,57 +67,39 @@ function CreateTreatmentForm({ onCreate }) {
         </div>
 
         <div className="mb-4">
-          <Input
-            label="Procedimiento"
+          <label htmlFor="procedimiento" className="block mb-2">
+            Procedimiento
+          </label>
+          <Select
+            id="procedimiento"
             {...register("procedimiento", {
               required: "El procedimiento es necesario",
             })}
             error={errors.procedimiento && errors.procedimiento.message}
-          />
-        </div>
-
-        <div className="mb-4">
-          <Input
-            label="Observaciones"
-            {...register("observaciones", {
-              required: "Las observaciones son necesarias",
-            })}
-            error={errors.observaciones && errors.observaciones.message}
-          />
-        </div>
-
-        <div className="mb-4">
-          <Input
-            label="Medicamento Recetado"
-            {...register("medicamentoRecetado", {
-              required: "El medicamento es necesario",
-            })}
-            error={
-              errors.medicamentoRecetado && errors.medicamentoRecetado.message
-            }
-          />
-        </div>
-
-        <div className="mb-4">
-          <Input
-            label="Citas Faltantes"
-            type="number"
-            {...register("citasFaltante", {
-              required: "Las citas faltantes son necesarias",
-            })}
-            error={errors.citasFaltante && errors.citasFaltante.message}
-          />
-        </div>
-
-        <div className="flex justify-center">
-          <Button
-            type="submit"
-            className="bg-sapphire-500 text-white"
-            disabled={isSubmitting}
+            className={`block w-full p-2 border rounded ${
+              errors.cod_procedimiento ? "border-red-500" : "border-gray-300"
+            }`}
           >
-            {isSubmitting ? "Creando..." : "Crear Tratamiento"}
-          </Button>
+            <Option value="">Selecciona un procedimiento</Option>
+            {procedimientos.map((proc) => (
+              <Option key={proc.procedimientoo} value={proc.procedimiento}>
+                {proc.nombreProcedimiento}
+              </Option>
+            ))}
+          </Select>
+          {errors.prodecimiento && (
+            <span className="text-red-500">{errors.procedimiento.message}</span>
+          )}
         </div>
+
+        <Button
+          type="submit"
+          color="lightBlue"
+          className="w-full"
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? "Creando..." : "Crear Tratamiento"}
+        </Button>
       </form>
     </div>
   );
