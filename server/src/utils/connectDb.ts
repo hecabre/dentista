@@ -19,3 +19,19 @@ export const connectDb = async () => {
     throw error;
   }
 };
+
+export const loginDb = async (user: string, password: string) => {
+  try {
+    const accessLogin: ConnectionOptions = {
+      user: user,
+      database: process.env.DATABASE,
+      password: password,
+      port: Number(process.env.PORT),
+      host: process.env.HOST,
+    };
+    const connection = await createConnection(accessLogin);
+    return connection;
+  } catch (error) {
+    throw error; // Lanza el error para que pueda ser manejado en el controlador
+  }
+};

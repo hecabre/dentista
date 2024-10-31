@@ -54,3 +54,21 @@ export const selectQuery = async (
     if (connection) await connection.end();
   }
 };
+
+export const selectUserQuery = async (
+  query: string,
+  values: any[]
+): Promise<RowDataPacket[]> => { // Cambia aquí
+  const connection = await connectDb();
+  if (!connection) throw new Error("Connection to db is not allowed");
+
+  try {
+    const [result] = await connection.query<RowDataPacket[]>(query, values); // Cambia aquí
+    return result;
+  } catch (err) {
+    console.log(err.message);
+    throw new Error("Error al ejecutar la consulta en la base de datos");
+  } finally {
+    if (connection) await connection.end();
+  }
+};

@@ -3,39 +3,41 @@ import { config } from "dotenv";
 import { LoginBodyType } from "../schemas/session.schema";
 import { createAccessToken } from "../utils/jwt";
 import jwt, { JwtPayload, VerifyErrors } from "jsonwebtoken";
+import { LOGIN_SQL } from "../query/session.query";
+import { selectUserQuery } from "../utils/crudQuerys";
+import { loginDb } from "../utils/connectDb";
 
 config();
 
-/**
- * Maneja el inicio de sesión para un usuario médico.
- *
- * @param req - Objeto de solicitud Express, contiene `user` y `password` en el cuerpo.
- * @param res - Objeto de respuesta Express.
- * @returns Responde con el estado de la autenticación y un token de acceso si las credenciales son correctas.
- */
 export const loginDoctor = async (
   req: Request<unknown, unknown, LoginBodyType>,
   res: Response
 ) => {
+  let connection;
+
   try {
-    if (
-      req.body.user !== process.env.MEDICO ||
-      req.body.password !== process.env.MEDICO_PASSWORD
-    )
-      return res.status(401).json({ message: "Credenciales incorrectas" });
+    // Establecer la conexión utilizando la función loginDb
+    connection = await loginDb(req.body.user, req.body.password);
+    console.log("Conexión exitosa");
+
+    // Generar el token de acceso
     const token = await createAccessToken({ user: req.body.user });
     res.cookie("token", token, {
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000,
     });
-    return res
-      .status(200)
-      .json({ message: "Iniciando sesión", user: req.body.user });
+
+    return res.status(200).json({ message: "Iniciando sesión" });
   } catch (error) {
-    return res.status(500).json({
-      message: "Error interno en el servidor, intenta más tarde",
+    return res.status(401).json({
+      message: "Credenciales incorrectas",
       error: error.message,
     });
+  } finally {
+    // Cerrar la conexión si está abierta
+    if (connection) {
+      await connection.end();
+    }
   }
 };
 
