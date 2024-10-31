@@ -121,7 +121,7 @@ function Doctor() {
           <>
             <Button
               className="mb-4 bg-green-500 text-white"
-              onClick={() => setShowCreateForm(true)} // Muestra el formulario de creación
+              onClick={() => setShowCreateForm(true)}
             >
               Crear Paciente
             </Button>

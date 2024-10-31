@@ -76,6 +76,7 @@ export const updateSupply = async (
   req: Request<UpdateSupplyParamsType, unknown, UpdateSupplyBodyType>,
   res: Response
 ) => {
+  console.log(req.body)
   try {
     const supply = await insertUpdateQuery(updateSuministroSQL, [
       req.body.nombre,

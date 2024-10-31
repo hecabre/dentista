@@ -94,7 +94,6 @@ export const UpdateSupplySchema = z.object({
         message:
           "El id del suministro no debe contener palabras reservadas de SQL",
       })
-      .regex(/^\d+$/, "El id del suministro debe ser positivo")
       .transform((str) => Number(str))
       .refine((val) => val > 0, "El id del suministro debe ser positivo"),
   }),

@@ -1,12 +1,13 @@
 import { useState } from "react";
-import { Typography } from "@material-tailwind/react";
-import { Card, Input, Button } from "@material-tailwind/react";
+import { Spinner, Typography } from "@material-tailwind/react";
+import { Card, Input } from "@material-tailwind/react";
 
 export function Table({
   headers = [],
   displayHeaders = [],
   TABLE_ROWS = [],
   onEdit,
+  showEditColumn = true, // Nueva prop con valor por defecto "true"
 }) {
   const [filterValue, setFilterValue] = useState("");
 
@@ -28,7 +29,7 @@ export function Table({
           placeholder="Buscar..."
           value={filterValue}
           onChange={handleFilterChange}
-          className="p-2  text-sapphire-500 font-poppins-regular focus:font-poppins-regular"
+          className="p-2 text-sapphire-500 font-poppins-regular focus:font-poppins-regular"
         />
       </div>
       <table className="min-w-full bg-sapphire-50">
@@ -45,15 +46,17 @@ export function Table({
                 </Typography>
               </th>
             ))}
-            <th className="p-4 border-b border-sapphire-400">
-              <Typography
-                variant="small"
-                color="white"
-                className="font-poppins-semibold"
-              >
-                Acciones
-              </Typography>
-            </th>
+            {showEditColumn && (
+              <th className="p-4 border-b border-sapphire-400">
+                <Typography
+                  variant="small"
+                  color="white"
+                  className="font-poppins-semibold"
+                >
+                  Acciones
+                </Typography>
+              </th>
+            )}
           </tr>
         </thead>
         <tbody>
@@ -77,27 +80,29 @@ export function Table({
                       </Typography>
                     </td>
                   ))}
-                  <td className={rowClasses}>
-                    <Typography
-                      as="button"
-                      variant="small"
-                      color="sapphire-500"
-                      className="font-poppins-bold  hover:text-sapphire-700"
-                      onClick={() => onEdit(row)}
-                    >
-                      Editar
-                    </Typography>
-                  </td>
+                  {showEditColumn && (
+                    <td className={rowClasses}>
+                      <Typography
+                        as="button"
+                        variant="small"
+                        color="sapphire-500"
+                        className="font-poppins-bold hover:text-sapphire-700"
+                        onClick={() => onEdit(row)}
+                      >
+                        Editar
+                      </Typography>
+                    </td>
+                  )}
                 </tr>
               );
             })
           ) : (
             <tr>
               <td
-                colSpan={headers.length + 1}
-                className="text-center p-4 text-sapphire-600 font-poppins-regular"
+                colSpan={headers.length + (showEditColumn ? 1 : 0)}
+                className="text-center p-4 text-sapphire-600 font-poppins-regular flex items-center justify-center w-full"
               >
-                No hay datos disponibles.
+                <Spinner className="text-center" />
               </td>
             </tr>
           )}

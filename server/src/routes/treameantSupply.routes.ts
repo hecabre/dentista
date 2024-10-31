@@ -19,7 +19,7 @@ router.post(
   createTreatmeantSupply
 );
 router.put(
-  "/update",
+  "/update/:id_suministro",
   authRequired,
   schemaValidation(CreateTreatmentSupplySchema),
   updateTreatmeantSupply

@@ -16,7 +16,7 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   const [role, setRole] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true); // Inicializa como true para cargar el estado
   const [isAuthenticated, setIsAuthenticated] = useState(null);
   const [errors, setErrors] = useState([]);
 
@@ -38,7 +38,6 @@ export const AuthProvider = ({ children }) => {
       const response = await loginReceptionistRequest(user);
       setRole("recepcionista");
       setIsAuthenticated(true);
-      console.log(isAuthenticated);
       setErrors([]);
       return response;
     } catch (error) {
@@ -53,6 +52,7 @@ export const AuthProvider = ({ children }) => {
     setIsAuthenticated(false);
     setErrors([]);
   };
+
   useEffect(() => {
     if (errors.length > 0) {
       const timer = setTimeout(() => {
@@ -61,16 +61,22 @@ export const AuthProvider = ({ children }) => {
       return () => clearTimeout(timer);
     }
   }, [errors]);
+
   useEffect(() => {
     async function checkLogin() {
+      // Evitar ejecutar si ya tenemos un estado de autenticación
+      if (isAuthenticated !== null) return;
+
       const cookies = Cookies.get();
+
+      // Si no hay token, el usuario no está autenticado
       if (!cookies.token) {
         setIsAuthenticated(false);
         setLoading(false);
-        setRole(null);
         return;
       }
 
+      // Si hay un token, procede a verificarlo
       try {
         const res = await verifyTokenRequest();
         if (res && res.user) {
@@ -78,15 +84,13 @@ export const AuthProvider = ({ children }) => {
           setRole(res.user);
         } else {
           setIsAuthenticated(false);
-          setRole(null);
         }
       } catch (error) {
         setErrors([error.response?.data?.message || "Error de autenticación."]);
         console.error(error);
         setIsAuthenticated(false);
-        setRole(null);
       } finally {
-        setLoading(false);
+        setLoading(false); // Desactiva el estado de carga
       }
     }
 

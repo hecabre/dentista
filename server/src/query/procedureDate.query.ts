@@ -17,5 +17,14 @@ export const SELECT_PROCEDURE_DATE_BY_EMPLEADO_SQL = `
 `;
 
 export const SELECT_ALL_PROCEDURE_DATES_SQL = `
-  SELECT * FROM procedimiento_cita;
+  SELECT 
+    pc.cita_empleado_numss AS cita_empleado_numss,
+    pc.cita_fecha AS cita_fecha,
+    pc.cita_hora AS cita_hora,
+    p.procedimiento AS procedimiento,
+    p.monto AS monto
+  FROM 
+    procedimiento_cita pc
+  JOIN 
+    procedimiento p ON pc.procedimiento_cod_procedimiento = p.cod_procedimiento;
 `;

@@ -22,7 +22,7 @@ export const createProcedureDate = async (
 ) => {
   try {
     const procedureDate = await insertUpdateQuery(INSERT_PROCEDURE_DATE_SQL, [
-      req.body.empleado_numss,
+      req.body.cita_empleado_numss,
       req.body.fecha,
       req.body.hora,
       req.body.cod_procedimiento,
@@ -64,7 +64,7 @@ export const updateProcedureDate = async (
       req.body.fecha,
       req.body.hora,
       req.body.cod_procedimiento,
-      req.body.empleado_numss,
+      req.body.cita_empleado_numss,
       req.body.fecha,
       req.body.hora,
     ]);

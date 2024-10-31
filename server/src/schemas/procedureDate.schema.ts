@@ -4,7 +4,7 @@ import { sqlInjectionRegex } from "../const/sql";
 //Json para actualziar y crear un procedimiento cita en la db
 export const CreateProcedureDateSchema = z.object({
   body: z.object({
-    empleado_numss: z.number({
+    cita_empleado_numss: z.number({
       required_error: "El numero de seguridad social es necesario",
       invalid_type_error: "El numero de seguridad social debe de ser un numero",
     }),
